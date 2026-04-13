@@ -171,6 +171,7 @@ if st.session_state['mesa_activa']:
     # 9. SÍNTESIS MAESTRA (EL CONSTRUCTOR)
     # ==========================================
     st.markdown("<div style='text-align: center;'><div style='font-size: 6rem;'>🏆</div><h2>SÍNTESIS MAESTRA</h2></div>", unsafe_allow_html=True)
+    
     if st.button("🔨 FORJAR REDACCIÓN FINAL", type="primary", use_container_width=True):
         st.session_state['hablando'] = "CONSTRUCTOR forjando síntesis..."
         with st.status("El Triatleta llega a la meta...", expanded=True):
@@ -179,3 +180,4 @@ if st.session_state['mesa_activa']:
         st.rerun()
     
     if st.session_state['respuestas']['SÍNTESIS']:
+        st.markdown(f"<div style='background:#f4f4f4; padding:20px; border-left:5px solid #000; font-size:1.6rem;'>{st.session_state['respuestas']['SÍNTESIS']}</div>", unsafe_allow_html=True)
