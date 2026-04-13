@@ -3,160 +3,179 @@ from datetime import date
 import time
 import random
 
-# 1. SEGURIDAD: CANDADO DE SOBERANÍA
+# ==========================================
+# 1. SEGURIDAD Y CANDADO DE SOBERANÍA
+# ==========================================
 FECHA_LIMITE = date(2026, 4, 20)
 if date.today() > FECHA_LIMITE:
-    st.error("⚠️ El período de prueba de 7 días ha finalizado. Contacte al Prof. Enrique Conte Mac Donell.")
+    st.error("⚠️ Acceso finalizado. Contacte al Prof. Enrique Conte Mac Donell.")
     st.stop()
 
-# 2. CONFIGURACIÓN Y MAJESTUOSIDAD VISUAL (CSS PERSONALIZADO)
+# ==========================================
+# 2. MAJESTUOSIDAD VISUAL (CSS PERSONALIZADO)
+# ==========================================
 st.set_page_config(page_title="SOLUCIÓN", layout="wide")
 
 st.markdown("""
     <style>
-    .main h1 { font-size: 4.5rem !important; color: #1E1E1E !important; text-align: center; font-weight: 800; margin-bottom: 0px; }
+    /* Tipografía Principal */
+    .main h1 { font-size: 4.5rem !important; color: #1E1E1E !important; text-align: center; font-weight: 900; margin-bottom: 0px; }
     .sub1 { font-size: 2.2rem !important; color: #333 !important; text-align: center; font-weight: 600; margin-top: 0px; }
-    .sub2 { font-size: 2.2rem !important; color: #555 !important; text-align: center; font-style: italic; margin-bottom: 40px; }
+    .sub2 { font-size: 2rem !important; color: #555 !important; text-align: center; font-style: italic; margin-bottom: 30px; }
     
-    .stTextArea textarea {
-        font-size: 1.8rem !important;
-        line-height: 1.6 !important;
-        color: #000 !important;
-        font-family: 'Georgia', serif !important;
-        background-color: #fcfcfc !important;
-        border: 2px solid #ddd !important;
-    }
+    /* Cuadro de Texto Principal (El Dolor) */
+    .stTextArea textarea { font-size: 1.8rem !important; line-height: 1.6 !important; font-family: 'Georgia', serif !important; border: 2px solid #ccc !important; }
     
-    .expert-box { text-align: center; padding: 20px; border-radius: 15px; background: #f0f2f6; border: 1px solid #ccc; }
+    /* Tarjetas de los Expertos */
+    .expert-box { text-align: center; padding: 20px; border-radius: 15px; background: #f8f9fa; border: 2px solid #ddd; margin-bottom: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
     .expert-symbol { font-size: 5rem; margin-bottom: 10px; }
-    .expert-name { font-size: 1.8rem; font-weight: bold; color: #1E1E1E; }
+    .expert-name { font-size: 2rem; font-weight: bold; color: #1E1E1E; }
     
-    .dialogue-box { 
-        background-color: #FFF9C4; 
-        padding: 20px; 
-        border-left: 10px solid #FBC02D; 
-        font-size: 1.5rem; 
-        font-weight: bold;
-        margin: 20px 0;
-    }
+    /* Caja Amarilla de Diálogo */
+    .dialogue-box { background-color: #FFF9C4; padding: 20px; border-left: 10px solid #FBC02D; font-size: 1.6rem; font-weight: bold; margin: 20px 0; color: #333; }
     
-    .user-batuta {
-        background-color: #E3F2FD;
-        border: 2px solid #2196F3;
-        padding: 15px;
-        border-radius: 10px;
-    }
+    /* Caja de Mando Soberano (Automático) */
+    .mando-box { background-color: #e8f5e9; padding: 25px; border-radius: 12px; border: 3px solid #4CAF50; text-align: center; margin-top: 20px; }
+    .mando-text { font-size: 2rem; font-weight: bold; color: #2E7D32; margin-bottom: 15px; }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. INICIALIZACIÓN DE MEMORIA (EL BÚNKER)
+# ==========================================
+# 3. MEMORIA DE SESIÓN (EL BÚNKER)
+# ==========================================
 if 'verificado' not in st.session_state: st.session_state['verificado'] = False
 if 'mesa_activa' not in st.session_state: st.session_state['mesa_activa'] = False
-if 'historial_sintesis' not in st.session_state: st.session_state['historial_sintesis'] = []
-if 'hablando_ahora' not in st.session_state: st.session_state['hablando_ahora'] = "Esperando inicio..."
+if 'hablando' not in st.session_state: st.session_state['hablando'] = "Mesa en silencio. Esperando convocatoria."
+if 'respuestas' not in st.session_state: 
+    st.session_state['respuestas'] = {"ESTRATEGA": "", "VIGÍA": "", "ANIMADOR": "", "SÍNTESIS": ""}
 
-# 4. BARRA LATERAL: SOBERANÍA Y PROYECCIÓN
+# ==========================================
+# 4. BARRA LATERAL (PROYECCIÓN)
+# ==========================================
 with st.sidebar:
     st.markdown("## 👑 SOBERANÍA")
-    st.write("Motor: **Llama3 (Independiente)**")
     st.divider()
-    st.markdown("### 🚀 PROYECCIÓN A FUTURO")
-    st.info("Fase 2: Conexión Global 🌐")
-    st.info("Fase 3: Memoria Histórica 🧠")
-    st.info("Fase 4: Interfaz de Voz 🎙️")
+    st.markdown("### 🚀 PROYECCIÓN")
+    st.info("Fase 2: Conexión Global 🌐\n\nFase 3: Memoria Histórica 🧠\n\nFase 4: Interfaz de Voz 🎙️")
     st.divider()
     clave = st.text_input("🔑 Clave de Acceso:", type="password")
     if st.button("VALIDAR JERARQUÍA"):
         if clave == "LHEROES-7D":
             st.session_state['verificado'] = True
             st.rerun()
-        else: st.error("Acceso Denegado")
 
+# ==========================================
 # 5. ENCABEZADO REAL
+# ==========================================
 st.markdown("<h1>SOLUCIÓN</h1>", unsafe_allow_html=True)
 st.markdown("<p class='sub1'>Arquitectura de Cuatro Expertos de Élite</p>", unsafe_allow_html=True)
 st.markdown("<p class='sub2'>Para el ámbito Personal, Social/Comunitario y Comercial</p>", unsafe_allow_html=True)
 
 if not st.session_state['verificado']:
-    st.warning("👈 Por favor, valide su acceso en la barra lateral para convocar a la mesa.")
+    st.warning("👈 Valide su acceso en la barra lateral.")
     st.stop()
 
+# ==========================================
 # 6. EL DESAFÍO (EL DOLOR)
-dolor = st.text_area("Vuelque aquí su Pensamiento o Desafío Estratégico:", height=250)
+# ==========================================
+dolor = st.text_area("Vuelque aquí su Pensamiento o Desafío Estratégico:", height=200)
 
-col_fijar, col_auto = st.columns([2, 1])
-with col_fijar:
-    btn_fijar = st.button("🚀 FIJAR DESAFÍO Y CONVOCAR MESA DE EXPERTOS", use_container_width=True)
-with col_auto:
-    modo_auto = st.toggle("🤖 Modo Diálogo Automático")
-
-if btn_fijar:
+if st.button("🚀 FIJAR DESAFÍO Y CONVOCAR MESA (Modo Manual)", use_container_width=True, type="primary"):
     if dolor.strip(): st.session_state['mesa_activa'] = True
-    else: st.warning("Debe describir el desafío para comenzar.")
+    else: st.warning("Escriba el desafío primero.")
+
+# CAJA DE MANDO SOBERANO (Modo Automático con Jerarquía)
+st.markdown("""
+<div class='mando-box'>
+    <div class='mando-text'>ACTIVAR DELIBERACIÓN ORGÁNICA ENTRE EXPERTOS</div>
+</div>
+""", unsafe_allow_html=True)
+if st.button("⚡ INICIAR MODO SOBERANO (Automático)", use_container_width=True):
+    if dolor.strip():
+        st.session_state['mesa_activa'] = True
+        st.session_state['hablando'] = "INICIANDO DELIBERACIÓN ORGÁNICA..."
+        # Simulación de carrera larga y llenado de respuestas
+        with st.status("Los expertos están debatiendo...", expanded=True):
+            st.write("El Estratega toma la palabra...")
+            time.sleep(2)
+            st.session_state['respuestas']['ESTRATEGA'] = f"**Análisis:** La situación requiere una intervención en 3 fases."
+            
+            st.write("El Vigía interviene...")
+            time.sleep(2)
+            st.session_state['respuestas']['VIGÍA'] = f"**Alerta:** Cuidado con el sesgo en la fase 2."
+            
+            st.write("El Animador equilibra...")
+            time.sleep(2)
+            st.session_state['respuestas']['ANIMADOR'] = f"**Impulso:** El equipo necesita contención emocional antes de avanzar."
+        st.session_state['hablando'] = "Debate concluido. Respuestas ancladas."
+        st.rerun()
+    else:
+        st.warning("Escriba el desafío primero.")
 
 st.divider()
 
-# 7. MESA DE EXPERTOS Y DIÁLOGO ACTIVO
+# ==========================================
+# 7. MESA DE EXPERTOS (ANCLADOS)
+# ==========================================
 if st.session_state['mesa_activa']:
-    # Caja Amarilla de Diálogo (Derecha/Arriba)
-    st.markdown(f"""<div class='dialogue-box'>🗣️ EN DIÁLOGO: {st.session_state['hablando_ahora']}</div>""", unsafe_allow_html=True)
-
+    st.markdown(f"<div class='dialogue-box'>🗣️ EN DIÁLOGO: {st.session_state['hablando']}</div>", unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("<div class='expert-box'><div class='expert-symbol'>🧠</div><div class='expert-name'>ESTRATEGA</div></div>", unsafe_allow_html=True)
-        if st.button("La palabra al ESTRATEGA"):
-            with st.status("El Triatleta está corriendo..."):
-                st.session_state['hablando_ahora'] = "ESTRATEGA (Analizando ruta crítica)"
-                time.sleep(2)
-            st.info("### Propuesta Estratégica:\nEl plan de acción está trazado sobre bases sólidas.")
+        if st.button("Ceder al ESTRATEGA"):
+            st.session_state['hablando'] = "ESTRATEGA trazando plan..."
+            with st.status("El Triatleta corre (Estrategia)...", expanded=True):
+                time.sleep(3) # Tiempo extendido
+                st.session_state['respuestas']['ESTRATEGA'] = f"**Propuesta:** Para resolver '{dolor[:30]}...', he diseñado un esquema soberano inquebrantable."
+            st.rerun()
+        if st.session_state['respuestas']['ESTRATEGA']:
+            st.info(st.session_state['respuestas']['ESTRATEGA'])
 
     with col2:
         st.markdown("<div class='expert-box'><div class='expert-symbol'>👁️</div><div class='expert-name'>VIGÍA</div></div>", unsafe_allow_html=True)
-        if st.button("La palabra al VIGÍA"):
-            with st.status("El Triatleta está nadando..."):
-                st.session_state['hablando_ahora'] = "VIGÍA (Supervisando coherencia)"
-                time.sleep(2)
-            st.warning("### Informe del Vigía:\nSe han blindado los riesgos y la coherencia sistémica.")
+        if st.button("Ceder al VIGÍA"):
+            st.session_state['hablando'] = "VIGÍA revisando riesgos..."
+            with st.status("El Triatleta nada (Revisión)...", expanded=True):
+                time.sleep(3)
+                st.session_state['respuestas']['VIGÍA'] = "**Informe:** He blindado la propuesta contra inconsistencias lógicas y riesgos."
+            st.rerun()
+        if st.session_state['respuestas']['VIGÍA']:
+            st.warning(st.session_state['respuestas']['VIGÍA'])
 
     with col3:
         st.markdown("<div class='expert-box'><div class='expert-symbol'>☀️</div><div class='expert-name'>ANIMADOR</div></div>", unsafe_allow_html=True)
-        if st.button("La palabra al ANIMADOR"):
-            with st.status("El Triatleta en bicicleta..."):
-                st.session_state['hablando_ahora'] = "ANIMADOR (Infundiendo propósito)"
-                time.sleep(2)
-            st.success("### Visión del Animador:\nEl tono humano y la energía vital han sido integrados.")
-
-    # MODO AUTOMÁTICO (DIÁLOGO ORGÁNICO)
-    if modo_auto and st.button("🔥 INICIAR DELIBERACIÓN AUTOMÁTICA"):
-        expertos = ["ESTRATEGA", "VIGÍA", "ANIMADOR"]
-        for _ in range(4): # Simula 4 intervenciones aleatorias
-            exp = random.choice(expertos)
-            st.session_state['hablando_ahora'] = f"{exp} interviniendo..."
-            with st.status(f"Mesa en sesión: {exp} hablando"):
-                time.sleep(1.5)
-        st.session_state['hablando_ahora'] = "SÍNTESIS MAESTRA en proceso..."
+        if st.button("Ceder al ANIMADOR"):
+            st.session_state['hablando'] = "ANIMADOR integrando..."
+            with st.status("El Triatleta pedalea (Impulso)...", expanded=True):
+                time.sleep(3)
+                st.session_state['respuestas']['ANIMADOR'] = "**Visión:** El tono humano ha sido calibrado para maximizar la recepción del mensaje."
+            st.rerun()
+        if st.session_state['respuestas']['ANIMADOR']:
+            st.success(st.session_state['respuestas']['ANIMADOR'])
 
     st.divider()
-
-    # 8. LA BATUTA DEL DIRECTOR (INTERVENCIÓN DEL USUARIO)
+    
+    # ==========================================
+    # 8. LA BATUTA DEL DIRECTOR
+    # ==========================================
     st.markdown("### 🪄 LA BATUTA DEL DIRECTOR")
-    intervencion = st.text_input("Su intervención en la mesa (Pregunte, corrija o amplíe):", placeholder="Escriba aquí su comando de voz o texto...")
+    intervencion = st.text_input("Intervenga en la mesa (Corrija o amplíe):", placeholder="Escriba aquí su comando...")
     if intervencion:
-        st.markdown(f"<div class='user-batuta'><b>Director:</b> {intervencion}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background:#E3F2FD; padding:15px; border-radius:10px; font-size:1.4rem;'><b>Usted (Director):</b> {intervencion}</div>", unsafe_allow_html=True)
 
     st.divider()
 
-    # 9. CUARTO EXPERTO: SÍNTESIS MAESTRA (EL CONSTRUCTOR)
+    # ==========================================
+    # 9. SÍNTESIS MAESTRA (EL CONSTRUCTOR)
+    # ==========================================
     st.markdown("<div style='text-align: center;'><div style='font-size: 6rem;'>🏆</div><h2>SÍNTESIS MAESTRA</h2></div>", unsafe_allow_html=True)
     if st.button("🔨 FORJAR REDACCIÓN FINAL", type="primary", use_container_width=True):
-        resultado = f"SÍNTESIS FINAL ({date.today()}): El desafío '{dolor[:30]}...' ha sido resuelto mediante soberanía tecnológica."
-        st.session_state['historial_sintesis'].append(resultado)
-        st.write(resultado)
-
-    # 10. BITÁCORA DE SÍNTESIS (MEMORIA)
-    if st.session_state['historial_sintesis']:
-        with st.expander("📚 BITÁCORA DE SÍNTESIS (Historial guardado)"):
-            for s in st.session_state['historial_sintesis']:
-                st.write(s)
-                st.divider()
+        st.session_state['hablando'] = "CONSTRUCTOR forjando síntesis..."
+        with st.status("El Triatleta llega a la meta...", expanded=True):
+            time.sleep(4)
+            st.session_state['respuestas']['SÍNTESIS'] = f"**SÍNTESIS FINAL ({date.today()}):**\n\nEl desafío ha sido procesado. La estrategia está lista para implementación comercial, social o personal."
+        st.rerun()
+    
+    if st.session_state['respuestas']['SÍNTESIS']:
