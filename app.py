@@ -1,4 +1,17 @@
 import streamlit as st
+from datetime import date
+
+# --- CLÁUSULA DE SEGURIDAD: PERÍODO DE PRUEBA ---
+# El sistema se bloqueará automáticamente después de esta fecha
+FECHA_LIMITE = date(2026, 4, 20) 
+
+if date.today() > FECHA_LIMITE:
+    st.error("⚠️ El período de prueba de 7 días ha finalizado.")
+    st.info("Para renovar el acceso o adquirir la licencia permanente, contacte a Enrique Conte Mac Donell.")
+    st.stop() 
+# -----------------------------------------------
+
+import streamlit as st
 import time
 from datetime import datetime
 import requests
